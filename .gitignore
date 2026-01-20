@@ -1,0 +1,15 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Playwright
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
