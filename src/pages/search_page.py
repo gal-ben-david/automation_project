@@ -12,8 +12,19 @@ class SearchPage:
         expect(search_link).to_be_visible(timeout=10000)
         search_link.click()
 
-    def search(self, query: str) -> None:
+    def select_section(self, section_name: str) -> None:
+        btn = self.page.get_by_role("button", name=section_name, exact=True)
+        expect(btn).to_be_visible(timeout=10000)
+        btn.click()
+
+        selected = self.page.locator(
+            "button[data-qa-action='search-section-change'][aria-current='true']"
+        )
+        expect(selected).to_have_text(section_name, timeout=10000)
+
+    def search_in_section(self,section_name: str, query: str) -> None:
         self.open_search_page()
+        self.select_section(section_name)
 
         search_input = self.page.locator("#search-home-form-combo-input")
         expect(search_input).to_be_visible(timeout=10000)
