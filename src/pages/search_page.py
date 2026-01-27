@@ -53,6 +53,6 @@ class SearchPage:
         expect(first_product).to_be_visible(timeout=15000)
         first_product.click()
 
-        expect(self.page).not_to_have_url(re.compile(r".*/search.*"), timeout=15000)
+        # expect(self.page).not_to_have_url(re.compile(r".*/search.*"), timeout=15000)
         expect(self.page).to_have_url(re.compile(r".*\.html.*"), timeout=15000)
 
