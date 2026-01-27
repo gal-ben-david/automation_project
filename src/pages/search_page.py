@@ -1,3 +1,4 @@
+import re
 from playwright.sync_api import Page, expect
 
 class SearchPage:
@@ -42,3 +43,16 @@ class SearchPage:
         results = self.page.locator(".product-link")
         expect(results.first).to_be_visible(timeout=15000)
         assert results.count() > 0
+
+    def open_first_product_from_results(self) -> None:
+        first_product = self.page.locator("a[data-qa-action='product-click']").first
+
+        if first_product.count() == 0:
+            first_product = self.page.locator(".product-link").first
+
+        expect(first_product).to_be_visible(timeout=15000)
+        first_product.click()
+
+        expect(self.page).not_to_have_url(re.compile(r".*/search.*"), timeout=15000)
+        expect(self.page).to_have_url(re.compile(r".*\.html.*"), timeout=15000)
+
