@@ -1,7 +1,5 @@
 import re
 from playwright.sync_api import Page, expect
-
-
 class CartPage:
     def __init__(self, page: Page):
         self.page = page
@@ -18,4 +16,4 @@ class CartPage:
 
     def assert_empty(self) -> None:
         self.page.wait_for_timeout(1500)
-        assert self.remove_buttons.count() == 0, f"Expected empty cart, but found remove buttons and header count={count}"
+        assert self.remove_buttons.count() == 0, f"Expected empty cart, but found remove buttons"
