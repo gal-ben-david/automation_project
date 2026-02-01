@@ -54,9 +54,13 @@ Create a .env file based on .env.example.
 Example:
 
 BASE_URL=https://www.zara.com/il/en/
+
 HEADLESS=false
+
 BROWSER=chromium
+
 TIMEOUT=15000
+
 LOCALE=en-US
 
 ---
@@ -68,6 +72,7 @@ Run all tests
 ```bash
 pytest
 ```
+
 
 
 
