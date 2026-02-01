@@ -1,27 +1,21 @@
+import re
 from playwright.sync_api import Page, expect
 
+
 class CartPage:
-    def __init__(self, page:Page):
+    def __init__(self, page: Page):
         self.page = page
 
     @property
-    def cart_link(self):
-        return self.page.locator("a[data-qa-id='layout-header-go-to-cart']")
+    def remove_buttons(self):
+        return self.page.locator("[data-qa-action*='remove']")
 
-    @property
-    def cart_count(self):
-        return self.page.locator("span[data-qa-id='layout-header-go-to-cart-items-count']")
+    def remove_first_item(self) -> None:
+        expect(self.remove_buttons.first).to_be_visible(timeout=15000)
+        self.remove_buttons.first.click()
 
-    def open(self) -> None:
-        expect(self.cart_link).to_be_visible(timeout=15000)
-        self.cart_link.click()
-        expect(self.page).to_have_url("**/shop/cart", timeout=15000)
+        self.page.wait_for_load_state("domcontentloaded")
 
-    def assert_count_is_at_least(self, n: int = 1, timeout_ms: int = 15000) -> None:
-        expect(self.cart_count).to_be_visible(timeout=timeout_ms)
-        
-        count_text = self.cart_count.inner_text().strip()
-        assert count_text.isdigit(), f"Cart count is not a number: '{count_text}'"
-        assert int(count_text) >= n, f"Expected cart count >= {n}, got {count_text}"
-
-    
+    def assert_empty(self) -> None:
+        self.page.wait_for_timeout(1500)
+        assert self.remove_buttons.count() == 0, f"Expected empty cart, but found remove buttons and header count={count}"
